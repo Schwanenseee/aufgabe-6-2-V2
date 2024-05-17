@@ -1,0 +1,91 @@
+﻿kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: aufgabe-6-2-V2
+  annotations:
+    openshift.io/display-name: "Hier kommt Daniels Webseiten Template"
+    description: "Eins wichtige kleiner Webseite"
+    iconClass: "icon-play"
+    tags: "html"
+
+parameters:
+  - name: SOURCE_IMAGE_URL
+    description: url-wo-her-kommt-das-image
+    value: ghcr.io/schwanenseee/aufgabe-6-2:v1
+    required: true
+
+objects:
+  - kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: aufgabe-6-2-V2
+      labels:
+        app: aufgabe-6-2-V2
+        app.kubernetes.io/part-of: aufgabe-6-2-V2
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: aufgabe-6-2-V2
+      template:
+        metadata:
+          labels:
+            app: aufgabe-6-2-V2
+        spec:
+          containers:
+            - name: aufgabe-6-2-V2
+              image: ${SOURCE_IMAGE_URL}
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              imagePullPolicy: IfNotPresent
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+          dnsPolicy: ClusterFirst
+          securityContext: {}
+          schedulerName: default-scheduler
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 25%
+          maxSurge: 25%
+          revisionHistoryLimit: 10
+          progressDeadlineSeconds: 600
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: aufgabe-6-2-V2
+      labels:
+        app: aufgabe-6-2-V2
+        app.kubernetes.io/part-of: aufgabe-6-2-V2
+    spec:
+      ports:
+        - name: 8080-tcp
+          protocol: TCP
+          port: 8080
+          targetPort: 8080
+      internalTrafficPolicy: Cluster
+      type: ClusterIP
+      sessionAffinity: None
+      selector:
+        app: aufgabe-6-2-V2
+  - kind: Route
+    apiVersion: route.openshift.io/v1
+    metadata:
+      name: aufgabe-6-2-V2
+      labels:
+        app: aufgabe-6-2-V2
+        app.kubernetes.io/part-of: aufgabe-6-2-V2
+    spec:
+      to:
+        kind: Service
+        name: aufgabe-6-2-V2
+      port:
+        targetPort: 8080-tcp
+      tls:
+        termination: edge
+        insecureEdgeTerminationPolicy: Redirect
+      wildcardPolicy: None
