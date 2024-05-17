@@ -1,7 +1,7 @@
 ﻿kind: Template
-apiVersion: template.openshift.io/v1
+apiversion: template.openshift.io/v1
 metadata:
-  name: aufgabe-6-2-V2
+  name: aufgabe-6-2-v2
   annotations:
     openshift.io/display-name: "Hier kommt Daniels Webseiten Template"
     description: "Eins wichtige kleiner Webseite"
@@ -16,24 +16,24 @@ parameters:
 
 objects:
   - kind: Deployment
-    apiVersion: apps/v1
+    apiversion: apps/v1
     metadata:
-      name: aufgabe-6-2-V2
+      name: aufgabe-6-2-v2
       labels:
-        app: aufgabe-6-2-V2
-        app.kubernetes.io/part-of: aufgabe-6-2-V2
+        app: aufgabe-6-2-v2
+        app.kubernetes.io/part-of: aufgabe-6-2-v2
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: aufgabe-6-2-V2
+          app: aufgabe-6-2-v2
       template:
         metadata:
           labels:
-            app: aufgabe-6-2-V2
+            app: aufgabe-6-2-v2
         spec:
           containers:
-            - name: aufgabe-6-2-V2
+            - name: aufgabe-6-2-v2
               image: ${SOURCE_IMAGE_URL}
               ports:
                 - containerPort: 8080
@@ -55,12 +55,12 @@ objects:
           revisionHistoryLimit: 10
           progressDeadlineSeconds: 600
   - kind: Service
-    apiVersion: v1
+    apiversion: v1
     metadata:
-      name: aufgabe-6-2-V2
+      name: aufgabe-6-2-v2
       labels:
-        app: aufgabe-6-2-V2
-        app.kubernetes.io/part-of: aufgabe-6-2-V2
+        app: aufgabe-6-2-v2
+        app.kubernetes.io/part-of: aufgabe-6-2-v2
     spec:
       ports:
         - name: 8080-tcp
@@ -71,18 +71,18 @@ objects:
       type: ClusterIP
       sessionAffinity: None
       selector:
-        app: aufgabe-6-2-V2
+        app: aufgabe-6-2-v2
   - kind: Route
-    apiVersion: route.openshift.io/v1
+    apiversion: route.openshift.io/v1
     metadata:
-      name: aufgabe-6-2-V2
+      name: aufgabe-6-2-v2
       labels:
-        app: aufgabe-6-2-V2
-        app.kubernetes.io/part-of: aufgabe-6-2-V2
+        app: aufgabe-6-2-v2
+        app.kubernetes.io/part-of: aufgabe-6-2-v2
     spec:
       to:
         kind: Service
-        name: aufgabe-6-2-V2
+        name: aufgabe-6-2-v2
       port:
         targetPort: 8080-tcp
       tls:
