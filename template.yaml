@@ -1,9 +1,9 @@
 ﻿kind: Template
 apiVersion: template.openshift.io/v1
 metadata:
-  name: aufgabe-6-2
+  name: aufgabe-6-2-test2
   annotations:
-    openshift.io/display-name: "HTML Page based on Auftrag 6.2. Example"
+    openshift.io/display-name: "aufgabe-6-2-test2"
     description: "A simple HTML Page"
     iconClass: "icon-play"
     tags: "html"
@@ -18,22 +18,22 @@ objects:
   - kind: Deployment
     apiVersion: apps/v1
     metadata:
-      name: aufgabe-6-2
+      name: aufgabe-6-2-test2
       labels:
-        app: aufgabe-6-2
-        app.kubernetes.io/part-of: zli-modul-109
+        app: aufgabe-6-2-test2
+        app.kubernetes.io/part-of: aufgabe-6-2-test2
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: aufgabe-6-2
+          app: aufgabe-6-2-test2
       template:
         metadata:
           labels:
-            app: aufgabe-6-2
+            app: aufgabe-6-2-test2
         spec:
           containers:
-            - name: aufgabe-6-2
+            - name: aufgabe-6-2-test2
               image: ${SOURCE_IMAGE_URL}
               ports:
                 - containerPort: 8080
@@ -57,10 +57,10 @@ objects:
   - kind: Service
     apiVersion: v1
     metadata:
-      name: aufgabe-6-2
+      name: aufgabe-6-2-test2
       labels:
-        app: aufgabe-6-2
-        app.kubernetes.io/part-of: zli-modul-109
+        app: aufgabe-6-2-test2
+        app.kubernetes.io/part-of: aufgabe-6-2-test2
     spec:
       ports:
         - name: 8080-tcp
@@ -71,18 +71,18 @@ objects:
       type: ClusterIP
       sessionAffinity: None
       selector:
-        app: aufgabe-6-2
+        app: aufgabe-6-2-test2
   - kind: Route
     apiVersion: route.openshift.io/v1
     metadata:
-      name: aufgabe-6-2
+      name: aufgabe-6-2-test2
       labels:
-        app: aufgabe-6-2
-        app.kubernetes.io/part-of: zli-modul-109
+        app: aufgabe-6-2-test2
+        app.kubernetes.io/part-of: aufgabe-6-2-test2
     spec:
       to:
         kind: Service
-        name: aufgabe-6-2
+        name: aufgabe-6-2-test2
       port:
         targetPort: 8080-tcp
       tls:
