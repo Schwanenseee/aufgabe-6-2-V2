@@ -1,39 +1,39 @@
 ﻿kind: Template
-apiversion: template.openshift.io/v1
+apiVersion: template.openshift.io/v1
 metadata:
-  name: aufgabe-6-2-v2
+  name: aufgabe-6-2
   annotations:
-    openshift.io/display-name: "Hier kommt Daniels Webseiten Template"
-    description: "Eins wichtige kleiner Webseite"
+    openshift.io/display-name: "HTML Page based on Auftrag 6.2. Example"
+    description: "A simple HTML Page"
     iconClass: "icon-play"
     tags: "html"
 
 parameters:
   - name: SOURCE_IMAGE_URL
-    description: url-wo-her-kommt-das-image
+    description: The URL to the image for your application
     value: ghcr.io/schwanenseee/aufgabe-6-2:v1
     required: true
 
 objects:
   - kind: Deployment
-    apiversion: apps/v1
+    apiVersion: apps/v1
     metadata:
-      name: aufgabe-6-2-v2
+      name: aufgabe-6-2
       labels:
-        app: aufgabe-6-2-v2
-        app.kubernetes.io/part-of: aufgabe-6-2-v2
+        app: aufgabe-6-2
+        app.kubernetes.io/part-of: zli-modul-109
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: aufgabe-6-2-v2
+          app: aufgabe-6-2
       template:
         metadata:
           labels:
-            app: aufgabe-6-2-v2
+            app: aufgabe-6-2
         spec:
           containers:
-            - name: aufgabe-6-2-v2
+            - name: aufgabe-6-2
               image: ${SOURCE_IMAGE_URL}
               ports:
                 - containerPort: 8080
@@ -55,12 +55,12 @@ objects:
           revisionHistoryLimit: 10
           progressDeadlineSeconds: 600
   - kind: Service
-    apiversion: v1
+    apiVersion: v1
     metadata:
-      name: aufgabe-6-2-v2
+      name: aufgabe-6-2
       labels:
-        app: aufgabe-6-2-v2
-        app.kubernetes.io/part-of: aufgabe-6-2-v2
+        app: aufgabe-6-2
+        app.kubernetes.io/part-of: zli-modul-109
     spec:
       ports:
         - name: 8080-tcp
@@ -71,18 +71,18 @@ objects:
       type: ClusterIP
       sessionAffinity: None
       selector:
-        app: aufgabe-6-2-v2
+        app: aufgabe-6-2
   - kind: Route
-    apiversion: route.openshift.io/v1
+    apiVersion: route.openshift.io/v1
     metadata:
-      name: aufgabe-6-2-v2
+      name: aufgabe-6-2
       labels:
-        app: aufgabe-6-2-v2
-        app.kubernetes.io/part-of: aufgabe-6-2-v2
+        app: aufgabe-6-2
+        app.kubernetes.io/part-of: zli-modul-109
     spec:
       to:
         kind: Service
-        name: aufgabe-6-2-v2
+        name: aufgabe-6-2
       port:
         targetPort: 8080-tcp
       tls:
